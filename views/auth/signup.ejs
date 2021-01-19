@@ -1,0 +1,44 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <link href="/css/form-style.css" rel="stylesheet"/>
+<%- include('../includes/navigation.ejs') %>  
+
+<section class="signup-section">
+    <h2 class="text-center"><strong>Create your account</strong></h2>
+    <form action="/signup" method="POST" class="signup container">
+
+        <% if(errors) { %>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <%= errors %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% } %>  
+
+        <div class="types">
+
+        <p><strong>Which user you are ?</strong> </p>
+        
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="userType" id="inlineRadio1" value="user" checked>
+            <label class="form-check-label" for="inlineRadio1">User</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="userType" id="inlineRadio1" value="hotel">
+            <label class="form-check-label" for="inlineRadio1">Restaurant / Hotel</label>
+        </div>
+        
+        </div>
+    
+        <label>Email</label>
+        <input type="text" class="form-control <%= validationErrors.find(e=> e.param === 'email' ) ? 'invalid' : '' %>" name="email">
+        <label>Password</label>
+        <input type="password" class="form-control <%= validationErrors.find(e=> e.param === 'email' ) ? 'invalid' : '' %>" name="password">
+        <label>confirm password</label>
+        <input type="password" class="form-control <%= validationErrors.find(e=> e.param === 'email' ) ? 'invalid' : '' %>" name="confirm_password">
+        <button type="submit" class="btn btn-primary form-control" id="btn-signup">Register</button>
+    </form>
+</section>
+
+
+<%- include('../includes/end.ejs') %>

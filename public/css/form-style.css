@@ -1,0 +1,38 @@
+/* styles of forms */
+
+
+
+.search-box {
+    display: flex;
+}
+
+.search-box input.search {
+    height: 40px;
+    margin-right: 10px;
+}
+
+section.signup-section h2 {
+    margin-top: 100px;
+    font-size: 1.5rem;
+}
+
+form.signup {
+    width: 35%;
+    margin-top: 50px;
+}
+
+form.signup input,button {
+    margin: .5rem 0;
+}
+
+form.signup .types {
+    margin: 1rem 0;
+}
+
+form.signup .form-check-label {
+    margin-top: .3rem;
+}
+
+form.signup .invalid {
+    border-color: red;
+}
