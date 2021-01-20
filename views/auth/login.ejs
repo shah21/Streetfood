@@ -1,0 +1,28 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <link href="/css/form-style.css" rel="stylesheet"/>
+<%- include('../includes/navigation.ejs') %>  
+
+<section class="signup-section">
+    <h2 class="text-center"><strong>Login to your account</strong></h2>
+    <form action="/login" method="POST" class="signup container">
+
+        <% if(errors) { %>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <%= errors %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+        <% } %>  
+
+    
+        <label>Email</label>
+        <input type="text" class="form-control <%= validationErrors.find(e=> e.param === 'email' ) ? 'invalid' : '' %>" name="email" value="<%= oldData.email %>">
+        <label>Password</label>
+        <input type="password" class="form-control <%= validationErrors.find(e=> e.param === 'password' ) ? 'invalid' : '' %>" name="password" value="<%= oldData.password %>">
+        <button type="submit" class="btn btn-primary form-control" id="btn-signup">Login</button>
+    </form>
+</section>
+
+
+<%- include('../includes/end.ejs') %>

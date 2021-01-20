@@ -8,6 +8,7 @@ const router = express.Router();
 
 //routes
 router.get('/',mainController.getIndex);
+router.get('/findfood',mainController.getFindFood);
 
 
 
