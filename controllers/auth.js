@@ -68,6 +68,7 @@ exports.postLogin = (req,res,next)=>{
 
 exports.postSignup = (req,res,next) =>{
     const userType = req.body.userType;
+    const hotel_name = req.body.hotel_name;
     const email = req.body.email;
     const password = req.body.password;
     const confirm_password = req.body.confirm_password;
@@ -85,12 +86,14 @@ exports.postSignup = (req,res,next) =>{
                 email:email,
                 password:password,
                 confirm_password:confirm_password,
+                userType:userType,
+                hotel_name:hotel_name,
             }
         });
     }
 
     bcrypt.hash(password,12).then((hash) => {
-        const newUser = new User(email,hash,userType);
+        const newUser = new User(email,hash,userType,hotel_name);
         newUser.save().then((result) => {
             console.log('User created..');
             res.redirect('/login');

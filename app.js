@@ -10,6 +10,7 @@ const mongoConnect = require('./utils/database').mongoConnect;
 const DB_URL = require('./utils/database').DB_URL;
 const mainRouter = require('./routes/main');
 const authRouter = require('./routes/auth');
+const User = require('./models/user');
 
 
 
@@ -39,8 +40,23 @@ app.use(flash());
 //set locals for ejs
 app.use((req,res,next)=>{
     res.locals.userLoggedIn = req.session.userLoggedIn;
-    res.locals.userType = req.session.user.userType;
-    next();
+    next();  
+});
+
+app.use((req,res,next)=>{
+    if(!req.session.user){
+        return next();
+    }
+    User.findById(req.session.user._id).then((user) => {
+        if(!user){
+            return next();
+        }
+        req.user = user;
+        res.locals.userType = user.userType;
+        next();
+    }).catch((err) => {
+        console.log(err);
+    });
 });
 
 

@@ -1,6 +1,6 @@
 //import
 const express = require('express');
-const { body } = require('express-validator');
+const { body,checkIf } = require('express-validator');
 
 
 //internal files
@@ -37,6 +37,15 @@ router.post(
           return Promise.reject('Email already exists!. Pick another one');
         }
       });
+    }),
+    body('hotel_name').custom((value,{req})=>{
+      if(req.body.userType !== "hotel"){
+        return true;
+      }
+      if(value.length < 3){
+        return Promise.reject('Hotel Name must have atleast 3 or more character long !')
+      }
+      return true;
     }),
     body("password")
       .isLength({ min: 5 })

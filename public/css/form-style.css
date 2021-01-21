@@ -36,3 +36,7 @@ form.signup .form-check-label {
 form.signup .invalid {
     border-color: red;
 }
+
+#nameField {
+    display: none;
+}
