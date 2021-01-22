@@ -8,4 +8,25 @@ body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.header {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.food-card {
+    margin: 10px;
+}
+
+.food-card .lastBlock {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.food-card .food-image {
+    margin-top: 12px;
+    height: 150px;
+}
+
 

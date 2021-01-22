@@ -1,0 +1,100 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>  
+<div class="container">
+    <% if(errors) { %>
+        <div class="alert alert-warning alert-dismissible fade show my-4" role="alert">
+            <strong><%= errors %></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    <% }else if(success_msg){ %>
+        <div class="alert alert-success alert-dismissible fade show my-4" role="alert">
+            <strong><%= success_msg %></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    <% } %>    
+    <div class="header">
+        <h2 class="page-heading col-md-8">Manage Foods</h2>
+        <button class="btn btn-warning col-md-3" data-bs-toggle="modal" data-bs-target="#addFoodModel">
+            <i class="bi bi-plus-circle mx-2"></i>
+            <strong>Add Item</strong>
+        </button>
+    </div>
+    <hr width="100px"> 
+    
+    <% if(items){ %>
+        <div class="row">
+            <% items.forEach(item=>{ %>
+                <div class="card col-md-4 food-card" style="width: 18rem;">
+                    <img src="<%= item.food_image %>" class="card-img-top food-image" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= item.food_name %></h5>
+                      <p class="card-text"><%= item.food_description %></p>
+                      <p class="text-muted"><%= item.food_category %></p>
+                      <div class="lastBlock">
+                        <div class="price"><span class="text-muted">Price:</span> <strong><%= item.food_price %>&#8377;</strong></div>
+                        <a href="#" class="btn btn-primary btn-cart">Add to cart</a>
+                      </div>
+                      
+                    </div>
+                  </div>
+            <% }); %>
+        </div>
+    <% }else{ %>
+            <h3>No foods available. Please add one</h3>
+    <% } %>  
+    
+</div>
+
+ 
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="addFoodModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/add-item" method="POST" id="addForm" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="food-name" class="form-label">Food Name</label>
+                    <input type="text" class="form-control" id="food-name" name="food_name" placeholder="Pasta" value="<%= oldData.food_name %>">
+                </div>
+                <div class="mb-3">
+                    <label for="food-description" class="form-label">Food Description</label>
+                    <input type="text" class="form-control" id="food-description" name="food_description" placeholder="Delicious food" value="<%= oldData.food_description %>">
+                </div>
+                <div class="mb-3">
+                    <label for="food-category" class="form-label">Food Category</label>
+                    <input type="text" class="form-control" id="food-category" name="food_category" placeholder="Rice" value="<%= oldData.food_category %>">
+                </div>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Upload Food Image</label>
+                    <input class="form-control" type="file" name="image" id="formFile" value="<%= oldData.food_image %>">
+                </div>
+                <div class="mb-3">
+                    <label for="food-price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="food-price" name="food_price" placeholder="Pasta" value="<%= oldData.food_price %>">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="document.getElementById('addForm').submit();"> Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%- include('../includes/end.ejs') %>
