@@ -1,4 +1,5 @@
 const getDb = require('../utils/database').getDb;
+const ObjectId = require('mongodb').ObjectID;
 
 class Food {
     constructor(food_name,food_description,food_category,food_price,food_image,hotel_id){
@@ -15,11 +16,15 @@ class Food {
     }
 
     static findById(itemId){
-        return getDb().collection('items').findOne({_id:itemId});
+        return getDb().collection('items').findOne({_id:new ObjectId(itemId)});
     }
 
     static getAllItems(){
         return getDb().collection('items').find().toArray();
+    }
+
+    static updateById(id,values){
+        return getDb().collection('items').updateOne({_id:new ObjectId(id)},{$set:values});
     }
 }
 

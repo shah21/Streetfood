@@ -32,10 +32,11 @@
                     <div class="card-body">
                       <h5 class="card-title"><%= item.food_name %></h5>
                       <p class="card-text"><%= item.food_description %></p>
-                      <p class="text-muted"><%= item.food_category %></p>
+                      <span class="text-muted"><%= item.food_category %></span>
+                      <div class="price"><span class="text-muted">Price:</span> <strong><%= item.food_price %>&#8377;</strong></div>
                       <div class="lastBlock">
-                        <div class="price"><span class="text-muted">Price:</span> <strong><%= item.food_price %>&#8377;</strong></div>
-                        <a href="#" class="btn btn-primary btn-cart">Add to cart</a>
+                        <a href="#" class="btn btn-primary btn-cart" onclick="openEditModel('<%= item._id %>')">Edit</a>
+                        <a href="#" class="btn btn-danger btn-cart">Delete</a>
                       </div>
                       
                     </div>
@@ -46,6 +47,7 @@
             <h3>No foods available. Please add one</h3>
     <% } %>  
     
+
 </div>
 
  
@@ -97,4 +99,48 @@
     </div>
   </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="editFoodModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/edit-item" method="POST" id="editForm" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="food-name" class="form-label">Food Name</label>
+                    <input type="text" class="form-control" id="food-edit-name" name="food_name" placeholder="Pasta" value="<%= oldData.food_name1 %>">
+                </div>
+                <div class="mb-3">
+                    <label for="food-description" class="form-label">Food Description</label>
+                    <input type="text" class="form-control" id="food-edit-description" name="food_description" placeholder="Delicious food" value="<%= oldData.food_description1 %>">
+                </div>
+                <div class="mb-3">
+                    <label for="food-category" class="form-label">Food Category</label>
+                    <input type="text" class="form-control" id="food-edit-category" name="food_category" placeholder="Rice" value="<%= oldData.food_category1 %>">
+                </div>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Upload Food Image</label>
+                    <input class="form-control" type="file" name="image" id="formFile" value="<%= oldData.food_image %>">
+                </div>
+                <div class="mb-3">
+                    <label for="food-price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="food-edit-price" name="food_price" placeholder="Pasta" value="<%= oldData.food_price1 %>">
+                </div>
+                <input type="hidden" name="id" id="foodId" value="<%= oldData._id %>">  
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="document.getElementById('editForm').submit();"> Save</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+
+  <script src="/js/manage-script.js"></script>
 <%- include('../includes/end.ejs') %>
