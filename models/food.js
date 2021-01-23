@@ -23,8 +23,13 @@ class Food {
         return getDb().collection('items').find().toArray();
     }
 
-    static updateById(id,values){
-        return getDb().collection('items').updateOne({_id:new ObjectId(id)},{$set:values});
+    static updateById(id,values,userId){
+        console.log(userId);
+        return getDb().collection('items').updateOne({_id:new ObjectId(id),hotel_id:new ObjectId(userId)},{$set:values});
+    }
+
+    static deleteById(id,userId){
+        return getDb().collection('items').deleteOne({_id:new ObjectId(id),hotel_id:new ObjectId(userId)});
     }
 }
 

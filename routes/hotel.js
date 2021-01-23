@@ -35,4 +35,7 @@ router.post('/edit-item',[
   body('food_price').isLength({min:1}).withMessage('Please enter food price!').isFloat().withMessage( "Price must be a decimal value!"),
 ],hotelController.postEditItem);
 
+router.delete('/delete-item/:id',isAuth,isHotelUser,hotelController.deleteItem);
+
+
 module.exports = router;

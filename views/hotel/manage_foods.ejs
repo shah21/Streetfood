@@ -34,11 +34,11 @@
                       <p class="card-text"><%= item.food_description %></p>
                       <span class="text-muted"><%= item.food_category %></span>
                       <div class="price"><span class="text-muted">Price:</span> <strong><%= item.food_price %>&#8377;</strong></div>
+                      <input type="hidden" name="id" value="<%= item._id %>"/>
                       <div class="lastBlock">
-                        <a href="#" class="btn btn-primary btn-cart" onclick="openEditModel('<%= item._id %>')">Edit</a>
-                        <a href="#" class="btn btn-danger btn-cart">Delete</a>
+                        <a href="#" class="btn btn-primary btn-cart" onclick="openEditModel()">Edit</a>
+                        <a href="#" class="btn btn-danger btn-cart" onclick="deleteItem(this)">Delete</a>
                       </div>
-                      
                     </div>
                   </div>
             <% }); %>
@@ -124,7 +124,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Upload Food Image</label>
-                    <input class="form-control" type="file" name="image" id="formFile" value="<%= oldData.food_image %>">
+                    <input class="form-control" type="file" name="image" id="formFile">
                 </div>
                 <div class="mb-3">
                     <label for="food-price" class="form-label">Price</label>

@@ -1,5 +1,6 @@
 const Food = require('../models/food');
 const {validationResult} = require('express-validator');
+const { fileRemover } = require('../utils/file');
 
 exports.getManageFoods = (req,res,next)=>{
     const messages = req.flash('error');
@@ -109,55 +110,69 @@ exports.postEditItem = (req,res,next) =>{
     const food_description = req.body.food_description;
     const food_category = req.body.food_category;
     const food_price = req.body.food_price;
-    const hotel_id = req.user._id;
     const food_image = req.file;
     const food_id = req.body.id;
     const errors = validationResult(req).array();
 
     Food.getAllItems().then(items=>{
-        
-        if(errors.length > 0){
 
-            console.log(errors);
-            return res.status(422).render('hotel/manage_foods',{
-                pageTitle: "Manage Foods",
-                path: "/manage-foods",
-                errors:errors[0].msg,
-                success_msg:null,
-                items:items,
-                validationErrors:errors,
-                oldData:{
-                    food_name1:food_name,
-                    food_description1:food_description,
-                    food_category1:food_category,
-                    food_price1:food_price,
-                }
-            });
-        }
+        Food.findById(food_id).then(food=>{
+            if(errors.length > 0){
 
-        const updatedValues = {
-            food_name:food_name,
-            food_description:food_description,
-            food_category:food_category,
-            food_price:food_price,
-        };
-
-        if(food_image){
-            updatedValues['food_image'] = food_image.path;
-        }
-
-        console.log(food_id);
+                console.log(errors);
+                return res.status(422).render('hotel/manage_foods',{
+                    pageTitle: "Manage Foods",
+                    path: "/manage-foods",
+                    errors:errors[0].msg,
+                    success_msg:null,
+                    items:items,
+                    validationErrors:errors,
+                    oldData:{
+                        food_name1:food_name,
+                        food_description1:food_description,
+                        food_category1:food_category,
+                        food_price1:food_price,
+                    }
+                });
+            }
     
-        return Food.updateById(food_id,updatedValues).then((result) => {
-            console.log("Item updated.");
-            console.log(result);
-            req.flash('success','Food item updated');
-            res.redirect('/manage-foods');
+            const updatedValues = {
+                food_name:food_name,
+                food_description:food_description,
+                food_category:food_category,
+                food_price:food_price,
+            };
+    
+            if(food_image){
+                fileRemover(food.food_image);
+                updatedValues['food_image'] = food_image.path;
+            }
+    
+            return Food.updateById(food_id,updatedValues,req.user._id).then((result) => {
+                console.log("Item updated.");
+                req.flash('success','Food item updated');
+                res.redirect('/manage-foods');
+            });
         });
     }).catch((err) => {
         req.flash('error','something went wrong !.try again');
         console.log(err);
     });
-   
+};
 
+
+exports.deleteItem = (req,res,next)=>{
+    const id = req.params.id;
+
+    Food.findById(id).then(item=>{
+        fileRemover(item.food_image);
+        Food.deleteById(id,req.user._id).then(result=>{
+            console.log('Food item deleted ');
+            return res.status(200).json({'message':'success'})
+        });
+    }).catch(err=>{
+        console.log(err);
+    });
+
+    
 };
