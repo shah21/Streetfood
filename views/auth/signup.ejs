@@ -40,6 +40,7 @@
         <input type="password" class="form-control <%= validationErrors.find(e=> e.param === 'password' ) ? 'invalid' : '' %>" name="password" value="<%= oldData.password %>">
         <label>confirm password</label>
         <input type="password" class="form-control <%= validationErrors.find(e=> e.param === 'confirm_password' ) ? 'invalid' : '' %>" name="confirm_password" value="<%= oldData.confirm_password %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
         <button type="submit" class="btn btn-primary form-control" id="btn-signup">Register</button>
     </form>
 </section>

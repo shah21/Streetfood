@@ -21,10 +21,14 @@ const openEditModel = ()=>{
 
 const deleteItem = (btn)=>{
     const itemId = document.querySelector('[name=id]').value;
+    const csrf = document.querySelector('[name=_csrf]').value;
     const currentElement = btn.closest('.food-card');
     
     fetch('/delete-item/'+itemId,{
         method:'DELETE',
+        headers :{
+            'csrf-token': csrf,
+        }
     },).then((response) => {
         return response.json();
     }).then(data=>{

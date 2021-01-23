@@ -20,6 +20,7 @@
         <input type="text" class="form-control <%= validationErrors.find(e=> e.param === 'email' ) ? 'invalid' : '' %>" name="email" value="<%= oldData.email %>">
         <label>Password</label>
         <input type="password" class="form-control <%= validationErrors.find(e=> e.param === 'password' ) ? 'invalid' : '' %>" name="password" value="<%= oldData.password %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
         <button type="submit" class="btn btn-primary form-control" id="btn-signup">Login</button>
     </form>
 </section>

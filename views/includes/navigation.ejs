@@ -21,6 +21,7 @@
                 <% } %>
 
                 <form id="navForm" action="/logout" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
                     <li><a href="#" onclick="document.getElementById('navForm').submit();">Logout</a></li>
                 </form>    
             <% }else{ %>

@@ -5,6 +5,7 @@ const session = require('express-session');
 const MongoDBStore  = require('connect-mongodb-session')(session);
 const flash = require('connect-flash');
 const multer = require('multer');
+const csurf = require('csurf');
 //internal files
 const mongoConnect = require('./utils/database').mongoConnect;
 const DB_URL = require('./utils/database').DB_URL;
@@ -15,7 +16,7 @@ const User = require('./models/user');
 
 
 
-
+const csrfProtection = csurf();
 //express app
 const app = express();
 //mongodb store for storing session on db
@@ -63,13 +64,23 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use('/images',express.static(path.join(__dirname,'images')));
 //initialize session middleware
 app.use(
-  session({ secret: "my secret", resave: false, saveUninitialized: false,store:store })
+  session({
+    secret: "my secret",
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
 );
+
+//csrf protection middleware
+app.use(csrfProtection);
+
 //store flash messages accross requests
 app.use(flash());
 //set locals for ejs
 app.use((req,res,next)=>{
     res.locals.userLoggedIn = req.session.userLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
     next();  
 });
 

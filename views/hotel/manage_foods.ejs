@@ -35,6 +35,7 @@
                       <span class="text-muted"><%= item.food_category %></span>
                       <div class="price"><span class="text-muted">Price:</span> <strong><%= item.food_price %>&#8377;</strong></div>
                       <input type="hidden" name="id" value="<%= item._id %>"/>
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
                       <div class="lastBlock">
                         <a href="#" class="btn btn-primary btn-cart" onclick="openEditModel()">Edit</a>
                         <a href="#" class="btn btn-danger btn-cart" onclick="deleteItem(this)">Delete</a>
@@ -89,6 +90,7 @@
                     <label for="food-price" class="form-label">Price</label>
                     <input type="number" class="form-control" id="food-price" name="food_price" placeholder="Pasta" value="<%= oldData.food_price %>">
                 </div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
             </form>
         </div>
         <div class="modal-footer">
@@ -130,6 +132,7 @@
                     <label for="food-price" class="form-label">Price</label>
                     <input type="number" class="form-control" id="food-edit-price" name="food_price" placeholder="Pasta" value="<%= oldData.food_price1 %>">
                 </div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
                 <input type="hidden" name="id" id="foodId" value="<%= oldData._id %>">  
             </form>
         </div>
