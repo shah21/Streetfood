@@ -13,7 +13,7 @@ const mainRouter = require('./routes/main');
 const authRouter = require('./routes/auth');
 const hotelRouter = require('./routes/hotel');
 const User = require('./models/user');
-
+const errorController = require('./controllers/error');
 
 
 const csrfProtection = csurf();
@@ -96,7 +96,7 @@ app.use((req,res,next)=>{
         res.locals.userType = user.userType;
         next();
     }).catch((err) => {
-        console.log(err);
+        throw new Error(err);
     });
 });
 
@@ -105,7 +105,13 @@ app.use((req,res,next)=>{
 app.use(mainRouter);
 app.use(authRouter);
 app.use(hotelRouter);
+app.use('/500',errorController.get500);
+app.use(errorController.get404);
 
+
+app.use((error,req,res,next)=>{
+    res.redirect('/500');
+})
 
 //getting connection to db
 mongoConnect(()=>{

@@ -20,7 +20,7 @@ exports.getManageFoods = (req,res,next)=>{
           });
         }
     }).catch(err=>{
-        console.log(err);
+        throw new Error(err);
     })
 }
 
@@ -33,7 +33,7 @@ exports.getEditItem = (req,res,next)=>{
             return res.status(200).json({item:item,editting:true});
         }
     }).catch(err=>{
-        console.log(err);
+        throw new Error(err);
     })
 }
 
@@ -94,11 +94,11 @@ exports.postAddItem = (req,res,next) =>{
             res.redirect('/manage-foods');
         }).catch((err) => {
             req.flash('error','something went wrong !.try again');
-            console.log(err);
+            throw new Error(err);
         });
     }).catch(err=>{
-        console.log(err);
-    })
+        throw new Error(err);
+    });
 
    
 
@@ -156,7 +156,7 @@ exports.postEditItem = (req,res,next) =>{
         });
     }).catch((err) => {
         req.flash('error','something went wrong !.try again');
-        console.log(err);
+        throw new Error(err);
     });
 };
 
@@ -171,7 +171,7 @@ exports.deleteItem = (req,res,next)=>{
             return res.status(200).json({'message':'success'})
         });
     }).catch(err=>{
-        console.log(err);
+        throw new Error(err);
     });
 
     

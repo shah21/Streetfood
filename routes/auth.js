@@ -12,6 +12,8 @@ const router = express.Router();
 //path 
 router.get('/login',authController.getLogin);
 router.get('/signup',authController.getSignup);
+router.get('/forgot-password',authController.getForgotPassword);
+router.get('/reset/:token',authController.getResetPassword);
 
 router.post(
   "/login",
@@ -61,6 +63,10 @@ router.post(
 );
 
 router.post('/logout',authController.postLogout);
+
+router.post('/forgot-password',[
+  body('email').isEmail().withMessage('Please enter valid email!').normalizeEmail(),
+],authController.postForgotPassword);
 
 
 

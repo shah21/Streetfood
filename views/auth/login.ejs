@@ -22,7 +22,9 @@
         <input type="password" class="form-control <%= validationErrors.find(e=> e.param === 'password' ) ? 'invalid' : '' %>" name="password" value="<%= oldData.password %>">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
         <button type="submit" class="btn btn-primary form-control" id="btn-signup">Login</button>
+        <p class="text-center"><a href="/forgot-password" class="text-dark">Forgot password ?</a></p>
     </form>
+   
 </section>
 
 

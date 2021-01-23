@@ -3,6 +3,19 @@ const {validationResult} = require('express-validator');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const { use } = require('../routes/main');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const aws = require('aws-sdk');
+
+// configure AWS SDK
+aws.config.loadFromPath('./config.json');
+
+const transporter = nodemailer.createTransport({
+    SES: new aws.SES({
+        apiVersion: '2010-12-01',
+        region: "us-east-2"
+    }), 
+});
 
 exports.getLogin = (req,res,next)=>{
     const messages = req.flash('error');
@@ -25,6 +38,35 @@ exports.getSignup = (req,res,next)=>{
       oldData:{},
     });
 };
+
+exports.getForgotPassword = (req,res,next)=>{
+    const messages = req.flash('error');
+
+    res.render("auth/forgot-password", {
+      pageTitle: "Forgot Password",
+      path: "/forgot-password",
+      errors: messages.length > 0 ? messages[0] : null,
+      validationErrors:[],
+      oldData:{},
+    });
+};
+
+
+exports.getResetPassword = (req,res,next)=>{
+    const token = req.params.token;
+
+    res.render("auth/reset_password", {
+      pageTitle: "Reset Password",
+      path: "/reset-password",
+      errors: messages.length > 0 ? messages[0] : null,
+      validationErrors:[],
+      oldData:{},
+    });
+};
+
+
+
+
 
 exports.postLogin = (req,res,next)=>{
     const email = req.body.email;
@@ -62,7 +104,7 @@ exports.postLogin = (req,res,next)=>{
             });
         }
     }).catch((err) => {
-        console.log(err);
+        throw new Error(err);
     });
 };
 
@@ -99,7 +141,7 @@ exports.postSignup = (req,res,next) =>{
             res.redirect('/login');
         })
     }).catch((err) => {
-        console.log(err);
+        throw new Error(err);
     });
 };
 
@@ -108,4 +150,41 @@ exports.postLogout = (req,res,next) =>{
         console.log(err);
         res.redirect('/')
     });
+}
+
+exports.postForgotPassword = (req,res,next) =>{
+    const email = req.body.email;
+
+    crypto.randomBytes(32,(err,buffer)=>{
+        if(err){
+            return res.redirect('/forgot-password');
+        }
+        const token = buffer.toString('hex');
+        User.findByEmail(email).then(user=>{
+            if(!user){
+                req.flash('error','Email has not an account in streetfood!');
+                return res.redirect('/forgot-password');
+            }
+            const updateValues = {
+                resetToken:token,
+                tokenExpiring:Date.now + 3600000,
+            }
+            return User.updateById(user._id,updateValues);
+        }).then(result=>{
+            res.redirect('/login');
+            transporter.sendMail({
+                from:'muhsinshah21@gmail.com',
+                to:email,
+                subject:'Password reset',
+                html:`
+                    <p>You are requested for a password reset</p>
+                    <p>click this link to <a href="http://localhost:3000/reset/${token}">Link</a> set a new password</p>
+                `
+            });
+        }).catch(err=>{
+            console.log(err);
+        });
+    });
+
+    
 }

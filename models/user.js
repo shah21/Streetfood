@@ -1,4 +1,5 @@
 const getDb = require('../utils/database').getDb;
+const ObjectId = require('mongodb').ObjectID;
 
 class User {
     constructor(email,password,userType,hotel_name){
@@ -18,6 +19,10 @@ class User {
 
     static findByEmail(email){
         return getDb().collection('users').findOne({email:email});
+    }
+
+    static updateById(id,values){
+        return getDb().collection('users').updateOne({_id:new ObjectId(id)},{$set:values});
     }
 }
 
