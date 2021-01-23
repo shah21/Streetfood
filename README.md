@@ -1,2 +1,2 @@
 # streetfood
-Zomato for kerala tattuakada
+Zomato for kerala tattuakadas
