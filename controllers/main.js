@@ -1,8 +1,15 @@
-
+const Food = require('../models/food');
+const User = require('../models/user');
 
 exports.getIndex = (req,res,next)=>{
-    res.render("main/index", { pageTitle: "Home", path:'/' });
-}
-;exports.getFindFood = (req,res,next)=>{
-    res.render("main/findfood", { pageTitle: "Find Food", path: "/findfood" });
+    Food.getFoodsWithHotel().then(foods=>{
+        res.render("main/index", { 
+            pageTitle: "Home",
+            path: "/",
+            items:foods,
+        });
+    })
+
+
+    
 };

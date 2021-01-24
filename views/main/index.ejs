@@ -14,9 +14,33 @@
       </div>
     </div>
   </section>
-<section class="foods">
+<section class="foods container">
     <h2 class="text-center">Most ordered Foods</h1>
     <hr class="mx-auto" width="100px">    
+
+    <% if(items.length > 0){ %>
+      <div class="row">
+          <% items.forEach(item=>{ %>
+              <div class="card col-md-4 food-card" style="width: 18rem;">
+                  <img src="<%= item.food_image %>" class="card-img-top food-image" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title"><%= item.food_name %></h5>
+                    <p class="card-text"><%= item.food_description %></p>
+                    <span class="text-muted"><%= item.food_category %></span><br>
+                    <span class="text-muted">Hotel: <%= item.hotel[0].hotel_name %></span>
+                    <div class="price"><span class="text-muted">Price:</span> <strong><%= item.food_price %>&#8377;</strong></div>
+                    <input type="hidden" name="id" value="<%= item._id %>"/>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
+                    <div class="lastBlock">
+                      <a href="#" class="btn btn-success btn-cart" onclick="openEditModel()">Add to cart</a>
+                    </div>
+                  </div>
+                </div>
+          <% }); %>
+      </div>
+  <% }else{ %>
+          <h5 class="text-center">No foods available.</h3>
+  <% } %>  
     
 </section>
 

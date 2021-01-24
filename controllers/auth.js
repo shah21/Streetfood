@@ -123,6 +123,12 @@ exports.postLogin = (req,res,next)=>{
 
     User.findByEmail(email).then((user) => {
         if(user){
+
+            if(!user.verified){
+                req.flash('error','Please verify your account.Check your email account for verification email');
+                return res.redirect('/login')
+            }
+
             bcrypt.compare(password,user.password).then(match=>{
                 if(match){
                     req.session.userLoggedIn = true;
@@ -182,6 +188,7 @@ exports.postSignup = (req,res,next) =>{
                 const updateValues = {accVerifyToken:token,verified:false};
 
                 User.updateById(userId,updateValues).then(result=>{
+                    req.flash('success','Account created successfully. Please verify your account.Check your email account for verification email');
                     res.redirect('/login');
                     transporter.sendMail({
                         from:'muhsinshah21@gmail.com',

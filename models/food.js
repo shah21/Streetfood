@@ -31,6 +31,19 @@ class Food {
     static deleteById(id,userId){
         return getDb().collection('items').deleteOne({_id:new ObjectId(id),hotel_id:new ObjectId(userId)});
     }
+
+    static getFoodsWithHotel(){
+        return getDb().collection('items').aggregate([
+            {
+                $lookup :{
+                    from:'users',
+                    localField:'hotel_id',
+                    foreignField: '_id',
+                    as:'hotel'
+                }
+            },
+        ]).toArray();
+    }
 }
 
 module.exports = Food;
