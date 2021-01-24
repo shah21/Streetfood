@@ -79,6 +79,28 @@ exports.getResetPassword = (req,res,next)=>{
 }
 
 
+exports.getVerifyAccount = (req,res,next)=>{
+    const token = req.params.token;
+    const query = {accVerifyToken:token}
+
+    User.findByQuery(query).then(user=>{
+        if(!user){
+            req.flash('error','Unknown token.');
+            return res.redirect('/');
+        }
+        const updateValues = {verified:true};
+        User.updateById(user._id,updateValues).then((result) => {
+            res.render('auth/verify-account',{
+                    pageTitle:'Account Verified',
+                    path:'/account-verified',
+                    user:user,
+            });
+        });
+    }).catch((err) => {
+        throw new Error(err);    
+    });
+}
+
 
 
 exports.postLogin = (req,res,next)=>{
@@ -151,8 +173,28 @@ exports.postSignup = (req,res,next) =>{
         const newUser = new User(email,hash,userType,hotel_name);
         newUser.save().then((result) => {
             console.log('User created..');
-            res.redirect('/login');
-        })
+            const userId = result.ops[0]._id;
+            crypto.randomBytes(32,(err,buffer)=>{
+                if(err){
+                    return res.redirect('/login');
+                }
+                const token = buffer.toString('hex');
+                const updateValues = {accVerifyToken:token,verified:false};
+
+                User.updateById(userId,updateValues).then(result=>{
+                    res.redirect('/login');
+                    transporter.sendMail({
+                        from:'muhsinshah21@gmail.com',
+                        to:email,
+                        subject:'Verify email',
+                        html:`
+                            <p>Please verify your email</p>
+                            <p>click this link to <a href="http://localhost:3000/verify-account/${token}">Link</a> verify your account.</p>
+                        `
+                    });
+                });
+            });
+        });
     }).catch((err) => {
         throw new Error(err);
     });

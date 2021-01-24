@@ -14,6 +14,7 @@ router.get('/login',authController.getLogin);
 router.get('/signup',authController.getSignup);
 router.get('/forgot-password',authController.getForgotPassword);
 router.get('/reset/:token',authController.getResetPassword);
+router.get('/verify-account/:token',authController.getVerifyAccount);
 
 router.post(
   "/login",

@@ -34,4 +34,17 @@ body{
     margin-top: 100px;
 }
 
+section.verify-section h2{
+    margin-top: 100px;
+}
+
+section.verify-section p {
+    font-size: 1rem;
+    margin-top: 50px;
+}
+
+section.verify-section button {
+    align-content: center;    
+}
+
 
