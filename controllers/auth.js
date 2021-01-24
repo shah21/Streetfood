@@ -6,6 +6,7 @@ const { use } = require('../routes/main');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const aws = require('aws-sdk');
+const { ObjectId } = require('mongodb');
 
 // configure AWS SDK
 aws.config.loadFromPath('./config.json');
@@ -19,10 +20,12 @@ const transporter = nodemailer.createTransport({
 
 exports.getLogin = (req,res,next)=>{
     const messages = req.flash('error');
+    const success_messages = req.flash('success');
 
     res.render("auth/login", {
       pageTitle: "Login",
       path: "/login",
+      success_msg:success_messages.length > 0 ? success_messages[0] : null,
       errors: messages.length > 0 ? messages[0] : null,
       validationErrors:[],
       oldData:{},
@@ -53,17 +56,27 @@ exports.getForgotPassword = (req,res,next)=>{
 
 
 exports.getResetPassword = (req,res,next)=>{
+    const messages = req.flash('error');
     const token = req.params.token;
 
-    res.render("auth/reset_password", {
-      pageTitle: "Reset Password",
-      path: "/reset-password",
-      errors: messages.length > 0 ? messages[0] : null,
-      validationErrors:[],
-      oldData:{},
+    const query = {resetToken:token,tokenExpiring:{ $gt: Date.now()}}; 
+    User.findByQuery(query).then(user=>{
+        if(!user){
+            req.flash('error','Unauthorized access');
+            return res.redirect('/login');
+        }
+        res.render('auth/reset_password',{
+            pageTitle:'Reset Password',
+            path:'/reset',
+            userId:user._id,
+            errors: messages.length > 0 ? messages[0] : null,
+            validationErrors:[],
+            oldData:{}
+        });
+    }).catch(err=>{
+        throw new Error(err);
     });
-};
-
+}
 
 
 
@@ -167,7 +180,7 @@ exports.postForgotPassword = (req,res,next) =>{
             }
             const updateValues = {
                 resetToken:token,
-                tokenExpiring:Date.now + 3600000,
+                tokenExpiring:Date.now() + 3600000,
             }
             return User.updateById(user._id,updateValues);
         }).then(result=>{
@@ -185,6 +198,39 @@ exports.postForgotPassword = (req,res,next) =>{
             console.log(err);
         });
     });
-
-    
 }
+
+exports.postResetPassword = (req,res,next)=>{
+    const userId = req.body.id;
+    const password = req.body.password;
+    const confirm_password = req.body.confirm_password;
+    const errors = validationResult(req).array();
+
+    if(errors.length > 0){
+
+        return res.render('auth/reset_password',{
+            pageTitle:'Reset Password',
+            path:'/reset',
+            userId:userId,
+            errors: errors[0].msg,
+            validationErrors:errors,
+            oldData:{
+                password:password,
+                confirm_password:confirm_password,
+            }
+        });
+    }
+
+    bcrypt.hash(password,12).then(hash=>{
+        const updateValues = {password:hash,resetToken:undefined,tokenExpiring:undefined};
+        User.updateById(userId,updateValues).then((result) => {
+            console.log('Password updated');
+            req.flash('success','Password updated successfully');
+            res.redirect('/login');
+        });
+    }).catch((err) => {
+        throw new Error(err);        
+    });
+    
+    
+};

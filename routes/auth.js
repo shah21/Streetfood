@@ -70,5 +70,18 @@ router.post('/forgot-password',[
 
 
 
+router.post('/reset',[
+  body("password")
+  .isLength({ min: 5 })
+  .withMessage("Password must have atleast 5 or more character long !").trim(),
+  body('confirm_password').trim().custom((value,{req})=>{
+    if(value !== req.body.password){
+        return Promise.reject('Passwords must be same !');
+    }
+    return true;
+})
+],authController.postResetPassword);
+
+
 //export route 
 module.exports = router;

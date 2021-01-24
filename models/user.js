@@ -24,6 +24,10 @@ class User {
     static updateById(id,values){
         return getDb().collection('users').updateOne({_id:new ObjectId(id)},{$set:values});
     }
+
+    static findByQuery(query){
+        return getDb().collection('users').findOne(query);
+    }
 }
 
 module.exports = User;
