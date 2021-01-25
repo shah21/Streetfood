@@ -9,6 +9,10 @@ const router = express.Router();
 
 //routes
 router.get('/',mainController.getIndex);
+router.get('/cart',mainController.getCart);
+
+
+router.post('/add-to-cart/',isAuth,mainController.postAddtoCart);
 
 
 

@@ -32,7 +32,7 @@
                     <input type="hidden" name="id" value="<%= item._id %>"/>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
                     <div class="lastBlock">
-                      <a href="#" class="btn btn-success btn-cart" onclick="openEditModel()">Add to cart</a>
+                      <%- include('../includes/add_to_cart.ejs',{item:item}) %>
                     </div>
                   </div>
                 </div>

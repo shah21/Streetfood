@@ -172,11 +172,12 @@ exports.postSignup = (req,res,next) =>{
                 userType:userType,
                 hotel_name:hotel_name,
             }
+           
         });
     }
 
     bcrypt.hash(password,12).then((hash) => {
-        const newUser = new User(email,hash,userType,hotel_name);
+        const newUser = new User(email,hash,userType,hotel_name,{});
         newUser.save().then((result) => {
             console.log('User created..');
             const userId = result.ops[0]._id;
