@@ -2,11 +2,12 @@ const getDb = require('../utils/database').getDb;
 const ObjectId = require('mongodb').ObjectID;
 
 class User {
-    constructor(email,password,userType,hotel_name,cart){
+    constructor(email,password,userType,hotel_name,created,cart){
         this.email = email;
         this.password = password;
         this.userType = userType;
         this.hotel_name = hotel_name;
+        this.created = created;
         this.cart = cart;
     }
 
@@ -45,6 +46,36 @@ class User {
         return getDb().collection('users').find(
             query,
         ).project({'cart.items.$':1}).toArray();
+    }
+
+    static getCartItems(userId){
+        return getDb().collection('users').aggregate([
+            {
+                $match:{
+                    _id:new ObjectId(userId),
+                }
+            },
+            {
+                $unwind:'$cart.items'
+            },
+            {
+                $lookup:{
+                    from:'items',
+                    localField:'cart.items.foodId',
+                    foreignField:'_id',
+                    as:'cart.items.food'
+                }
+            }, 
+            {
+                $unwind:'$cart.items.food'
+            },
+            {
+                $group :{
+                    _id:'$_id',
+                    "cart":{"$push":"$cart.items"}
+                }
+            }
+        ]).toArray();
     }
 }
 

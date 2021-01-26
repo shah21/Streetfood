@@ -48,3 +48,38 @@ section.verify-section button {
 }
 
 
+section.cart h2.cart-text {
+    margin-top:100px;
+}
+
+section.cart .card-body{
+    display: flex;
+    justify-content: space-between;
+}
+
+section.cart .card-title {
+    margin:auto 1rem;
+}
+
+section.cart .noOfItems {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: auto;
+}
+
+section.cart div.cart-item {
+    margin-top: 20px;
+}
+
+section.cart .cart-item-image {
+    width: 100px;
+}
+
+section.cart .card-text{
+    margin: auto;
+    float: left;
+}
+
+section.cart .cart-delete{
+    margin: auto;
+}

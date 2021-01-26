@@ -1,5 +1,6 @@
 const Food = require('../models/food');
 const User = require('../models/user');
+const ObjectId = require('mongodb').ObjectID;
 
 exports.getIndex = (req,res,next)=>{
     Food.getFoodsWithHotel().then(foods=>{
@@ -12,9 +13,20 @@ exports.getIndex = (req,res,next)=>{
 };
 
 exports.getCart = (req,res,next)=>{
-    res.render("main/cart", { 
-        pageTitle: "Cart",
-        path: "/cart",
+
+    User.getCartItems(req.user._id).then(data=>{
+        const user = data[0];
+        if(!user){
+            return res.redirect('/');
+        }
+        //const cart = user.cart;
+        res.render("main/cart", { 
+            pageTitle: "Cart",
+            path: "/cart",
+            cartItems:user.cart,
+        }); 
+    }).catch(err=>{
+        throw new Error(err);
     });
 }
 
@@ -41,7 +53,7 @@ exports.postAddtoCart = (req,res,next)=>{
                 });
             }
             //if food item new to user's cart then add to items array
-            const values = {foodId:itemId,quantity:quantity};
+            const values = {foodId:new ObjectId(itemId),quantity:quantity};
             User.addToCart(req.user._id,values).then(result=>{
                 console.log('Added to cart');
                 res.redirect('/cart');

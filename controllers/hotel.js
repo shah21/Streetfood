@@ -1,13 +1,15 @@
 const Food = require('../models/food');
 const {validationResult} = require('express-validator');
 const { fileRemover } = require('../utils/file');
+const ObjectId = require('mongodb').ObjectID;
 
 exports.getManageFoods = (req,res,next)=>{
     const messages = req.flash('error');
     const success_msg = req.flash('success');
 
-    Food.getAllItems().then(items=>{
-        if (items) {
+    const query = {hotel_id:new ObjectId(req.user._id)};
+
+    Food.getItemsByQuery(query).then(items=>{
           res.render("hotel/manage_foods", {
             pageTitle: "Manage Foods",
             path: "/manage-foods",
@@ -18,7 +20,6 @@ exports.getManageFoods = (req,res,next)=>{
             validationErrors: [],
             oldData: {},
           });
-        }
     }).catch(err=>{
         throw new Error(err);
     })
@@ -47,7 +48,8 @@ exports.postAddItem = (req,res,next) =>{
     const food_image = req.file;
     const errors = validationResult(req).array();
 
-    Food.getAllItems().then(items=>{
+    const query = {hotel_id:new ObjectId(hotel_id)};
+    Food.getItemsByQuery(query).then(items=>{
         if(!food_image){
             return res.status(422).render('hotel/manage_foods',{
                 pageTitle: "Manage Foods",
@@ -87,7 +89,7 @@ exports.postAddItem = (req,res,next) =>{
             });
         }
     
-        const newFood = new Food(food_name,food_description,food_category,food_price,imgUrl,hotel_id);
+        const newFood = new Food(food_name,food_description,food_category,food_price,imgUrl,hotel_id,Date.now());
         newFood.save().then((result) => {
             console.log("Item added.");
             req.flash('success',' New food added');

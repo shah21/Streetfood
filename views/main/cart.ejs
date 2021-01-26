@@ -2,7 +2,38 @@
 </head>
 <body>
 <%- include('../includes/navigation.ejs') %>  
-    <h1>Cart</h1>
+<section class="cart container">
+    <h2 class="cart-text">My Cart</h2>
+    <hr class="hr" width="80px">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title"><span class="text-muted">Subtotal</span> : &#8377;</h5> 
+            <!-- <span class="noOfItems">(2 Items)</span> -->
+            <a href="#" class="btn btn-success">Pay & Order</a>
+        </div>
+    </div>
+    <% if(cartItems.length > 0){ %>
+        <% cartItems.forEach(item=>{ %>
+            <div class="card cart-item">
+                <div class="card-body">
+                  <img class="cart-item-image" src="<%= item.food.food_image %>" alt="">
+                  <div class="card-text">
+                    <h5><%= item.food.food_name %></h5>
+                    <span class="text-muted">Quantity: <%= item.quantity %> </span><br>
+                    <span>Price: <%= item.food.food_price %>&#8377;</span>
+                  </div>
+                  <div class="right-side">
+                    <a href="#"  class="btn btn-danger cart-delete">Remove</a>
+                  </div>
+                </div>
+            </div>
+        <% }); %>
+    
+    <% }else{ %>
+        <h5>No items </h5>
+    <% } %>    
+
+</section>    
 
 
 <%- include('../includes/end.ejs') %>
