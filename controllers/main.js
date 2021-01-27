@@ -15,15 +15,12 @@ exports.getIndex = (req,res,next)=>{
 exports.getCart = (req,res,next)=>{
 
     User.getCartItems(req.user._id).then(data=>{
-        const user = data[0];
-        if(!user){
-            return res.redirect('/');
-        }
-        //const cart = user.cart;
+        const cart = data[0];
+       
         res.render("main/cart", { 
             pageTitle: "Cart",
             path: "/cart",
-            cartItems:user.cart,
+            cart:cart ? cart : {items:[]},
         }); 
     }).catch(err=>{
         throw new Error(err);
@@ -31,20 +28,20 @@ exports.getCart = (req,res,next)=>{
 }
 
 exports.postAddtoCart = (req,res,next)=>{
-    const itemId = req.body.itemId;
+    const itemId = new ObjectId(req.body.itemId);
 
-    Food.findById(itemId).then(item=>{
+    Food.findById(req.body.itemId).then(item=>{
         if(!item){
             return res.redirect('/');
         }
-        const query = {"cart.items.foodId":itemId};
+        const query = {"cart.items.foodId": itemId};
         User.findByQuery(query).then(user=>{
             let quantity = 1;
             
             if(user){
                 //if user existed with above cart item then fetch cartItem from items
                 //and update cart
-                const cartItem = user.cart.items.find(x=> x.foodId === itemId);
+                const cartItem = user.cart.items.find(x=> x.foodId.toString() === itemId.toString());
                 quantity = cartItem.quantity + 1;
                 const values = {"cart.items.$.quantity":quantity};
                 return User.updateCart(req.user._id,itemId,values).then(result=>{
@@ -53,7 +50,7 @@ exports.postAddtoCart = (req,res,next)=>{
                 });
             }
             //if food item new to user's cart then add to items array
-            const values = {foodId:new ObjectId(itemId),quantity:quantity};
+            const values = {foodId:itemId,quantity:quantity};
             User.addToCart(req.user._id,values).then(result=>{
                 console.log('Added to cart');
                 res.redirect('/cart');
@@ -61,5 +58,27 @@ exports.postAddtoCart = (req,res,next)=>{
         });
     }).catch(err=>{ 
         throw new Error(err);
+    });
+};
+
+
+exports.deleteCartItem= (req,res,next)=>{
+    const itemId = req.params.id;
+    User.findById(req.user._id).then(user=>{
+        const cartItems = user.cart.items;
+        console.log("itemId",itemId);
+        const updatedCart = cartItems.filter(x=>{
+            return x.foodId.toString() !== itemId.toString();
+        });
+        console.log(updatedCart);
+        const values = {'cart.items':updatedCart};
+        User.updateById(req.user._id,values).then(result=>{
+            User.getCartItems(req.user._id).then((data) => {
+                const cart = data[0];
+                res.status(200).json({message:"suceess",total:cart ? cart.total : 0})
+            });
+        }).catch(err=>{
+            throw new Error(err);
+        });
     });
 };

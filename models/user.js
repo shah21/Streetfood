@@ -15,17 +15,6 @@ class User {
         return getDb().collection('users').insertOne(this);
     }
 
-    static addToCart(userId,values){
-        return getDb().collection('users').updateOne({_id:new ObjectId(userId)},{$push:{"cart.items":values}});
-    }
-
-    static updateCart(userId,itemId,values){
-        return getDb().collection('users').updateOne(
-            {_id:new ObjectId(userId),"cart.items.foodId":itemId},
-            {$set:values}
-        );
-    }
-
     static findById(userId){
         return getDb().collection('users').findOne({_id:userId});
     }
@@ -40,6 +29,17 @@ class User {
 
     static findByQuery(query){
         return getDb().collection('users').findOne(query);
+    }
+
+    static addToCart(userId,values){
+        return getDb().collection('users').updateOne({_id:new ObjectId(userId)},{$push:{"cart.items":values}});
+    }
+
+    static updateCart(userId,itemId,values){
+        return getDb().collection('users').updateOne(
+            {_id:new ObjectId(userId),"cart.items.foodId":itemId},
+            {$set:values}
+        );
     }
 
     static findCartItemByQuery(query){
@@ -72,11 +72,29 @@ class User {
             {
                 $group :{
                     _id:'$_id',
-                    "cart":{"$push":"$cart.items"}
+                    "items":{"$push":"$cart.items"},
+                }
+            },
+            {
+                $project:{
+                    _id:1,
+                    'items':1,
+                    'total':{
+                        $sum:{
+                            $map:{
+                                input:'$items',
+                                as:'item',
+                                in:{
+                                    $multiply:["$$item.quantity","$$item.food.food_price"]
+                                }
+                            }
+                        }
+                    }
                 }
             }
         ]).toArray();
     }
+
 }
 
 module.exports = User;

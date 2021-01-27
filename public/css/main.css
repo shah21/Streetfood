@@ -64,7 +64,7 @@ section.cart .card-title {
 section.cart .noOfItems {
     font-size: 1.2rem;
     font-weight: 500;
-    margin: auto;
+    margin: auto;   
 }
 
 section.cart div.cart-item {
@@ -82,4 +82,13 @@ section.cart .card-text{
 
 section.cart .cart-delete{
     margin: auto;
+}
+
+section.cart div.no-items {
+    text-align: center;
+    margin-top: 50px;
+}
+
+section.cart h5.no-item-cart {
+    font-size: 1.5rem;
 }

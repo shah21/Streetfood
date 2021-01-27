@@ -7,13 +7,13 @@
     <hr class="hr" width="80px">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title"><span class="text-muted">Subtotal</span> : &#8377;</h5> 
+            <h5 class="card-title"><span class="text-muted">Subtotal</span> :  <span id="totalPrice"><%= cart.total %></span>&#8377;</h5> 
             <!-- <span class="noOfItems">(2 Items)</span> -->
             <a href="#" class="btn btn-success">Pay & Order</a>
         </div>
     </div>
-    <% if(cartItems.length > 0){ %>
-        <% cartItems.forEach(item=>{ %>
+    <% if(cart.items.length > 0){ %>
+        <% cart.items.forEach(item=>{ %>
             <div class="card cart-item">
                 <div class="card-body">
                   <img class="cart-item-image" src="<%= item.food.food_image %>" alt="">
@@ -23,17 +23,24 @@
                     <span>Price: <%= item.food.food_price %>&#8377;</span>
                   </div>
                   <div class="right-side">
-                    <a href="#"  class="btn btn-danger cart-delete">Remove</a>
+                    <!-- <input type="hidden" name="id" value="<%= item.foodId %>"/> -->
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
+                    <a href="" onclick="deleteItem(this,'<%= item.foodId %>')"  class="btn btn-danger cart-delete">Remove</a>
                   </div>
                 </div>
             </div>
         <% }); %>
     
     <% }else{ %>
-        <h5>No items </h5>
+        <div class="no-items">
+            <h5 class="no-item-text">Your Streetfood Cart is empty.</h5>
+            <a href="/">continue shopping</a>
+        </div>
+       
     <% } %>    
 
 </section>    
 
 
+<script src="/js/cart-script.js"></script>
 <%- include('../includes/end.ejs') %>

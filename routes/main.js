@@ -9,10 +9,11 @@ const router = express.Router();
 
 //routes
 router.get('/',mainController.getIndex);
-router.get('/cart',mainController.getCart);
+router.get('/cart',isAuth,mainController.getCart);
 
 
 router.post('/add-to-cart/',isAuth,mainController.postAddtoCart);
+router.delete('/delete-cart-item/:id',isAuth,mainController.deleteCartItem);
 
 
 
