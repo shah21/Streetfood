@@ -92,3 +92,7 @@ section.cart div.no-items {
 section.cart h5.no-item-cart {
     font-size: 1.5rem;
 }
+
+.pagination-nav{
+    margin-top:50px;
+}

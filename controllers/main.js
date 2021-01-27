@@ -1,14 +1,30 @@
 const Food = require('../models/food');
 const User = require('../models/user');
 const ObjectId = require('mongodb').ObjectID;
+const ITEM_PER_PAGE = 1;
 
 exports.getIndex = (req,res,next)=>{
-    Food.getFoodsWithHotel().then(foods=>{
+    const page = +req.query.page || 1;
+    let totalItems;
+
+    Food.getItemsCount().then(count=>{
+        totalItems = count;
+        return Food.getFoodsWithHotel(page,ITEM_PER_PAGE);
+    }).then(foods=>{
         res.render("main/index", { 
-            pageTitle: "Home",
-            path: "/",
-            items:foods,
-        });
+                    pageTitle: "Home",
+                    path: "/",
+                    items:foods,
+                    totalItems:totalItems,
+                    hasNextPage:page * ITEM_PER_PAGE < totalItems,
+                    hasPrevPage:page > 1,
+                    nextPage:page+1,
+                    prevPage:page-1,
+                    currentPage:page,
+                    lastPage:Math.ceil(totalItems/ITEM_PER_PAGE)
+                });
+    }).catch(err=>{
+
     });
 };
 
@@ -77,8 +93,8 @@ exports.deleteCartItem= (req,res,next)=>{
                 const cart = data[0];
                 res.status(200).json({message:"suceess",total:cart ? cart.total : 0})
             });
-        }).catch(err=>{
-            throw new Error(err);
         });
+    }).catch(err=>{
+        throw new Error(err);
     });
 };

@@ -41,6 +41,25 @@
   <% }else{ %>
           <h5 class="text-center">No foods available.</h3>
   <% } %>  
+
+
+  <nav aria-label="Page navigation" class="pagination-nav">
+    <ul class="pagination">
+      <% if(currentPage !== 1 && prevPage !== 1){ %>
+      <li class="page-item"><a class="page-link" href="/?page=1">1</a></li>
+      <% } %>
+      <% if(hasPrevPage && currentPage !== prevPage){ %>
+        <li class="page-item"><a class="page-link" href="/?page=<%= prevPage %>">Previous</a></li>
+        <% } %>
+      <li class="page-item"><a class="page-link active" href="/?page=<%= currentPage %>"><%= currentPage %></a></li>
+      <% if(hasNextPage && currentPage !== prevPage){ %>
+      <li class="page-item"><a class="page-link" href="/?page=<%= nextPage %>">Next</a></li>
+      <% } %>
+      <% if(lastPage !== nextPage && currentPage !== lastPage){ %>
+        <li class="page-item"><a class="page-link" href="/?page=<%= lastPage %>"><%= lastPage %></a></li>
+      <% } %>
+    </ul>
+  </nav>
     
 </section>
 
