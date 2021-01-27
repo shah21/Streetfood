@@ -1,7 +1,7 @@
 const Food = require('../models/food');
 const User = require('../models/user');
 const ObjectId = require('mongodb').ObjectID;
-const ITEM_PER_PAGE = 1;
+const ITEM_PER_PAGE = 2;
 
 exports.getIndex = (req,res,next)=>{
     const page = +req.query.page || 1;

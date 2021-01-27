@@ -2,15 +2,20 @@ const Food = require('../models/food');
 const {validationResult} = require('express-validator');
 const { fileRemover } = require('../utils/file');
 const ObjectId = require('mongodb').ObjectID;
+const ITEM_PER_PAGE = 1;
 
 exports.getManageFoods = (req,res,next)=>{
     const messages = req.flash('error');
     const success_msg = req.flash('success');
-
+    const page = +req.query.page || 1;
+    let totalItems;
     const query = {hotel_id:new ObjectId(req.user._id)};
 
-    Food.getItemsByQuery(query).then(items=>{
-          res.render("hotel/manage_foods", {
+    Food.getItemsCount().then((count) => {
+        totalItems = count;
+        return Food.getItemsByQuery(query,ITEM_PER_PAGE,page);
+    }).then(items=>{
+        res.render("hotel/manage_foods", {
             pageTitle: "Manage Foods",
             path: "/manage-foods",
             editting:false,
@@ -19,10 +24,17 @@ exports.getManageFoods = (req,res,next)=>{
             success_msg: success_msg.length > 0 ? success_msg[0] : null,
             validationErrors: [],
             oldData: {},
+            totalItems:totalItems,
+            hasNextPage:page * ITEM_PER_PAGE < totalItems,
+            hasPrevPage:page > 1,
+            nextPage:page+1,
+            prevPage:page-1,
+            currentPage:page,
+            lastPage:Math.ceil(totalItems/ITEM_PER_PAGE)
           });
-    }).catch(err=>{
+    }).catch((err) => {
         throw new Error(err);
-    })
+    });
 }
 
 exports.getEditItem = (req,res,next)=>{

@@ -29,8 +29,8 @@ class Food {
         return getDb().collection('items').countDocuments()
     }
 
-    static getItemsByQuery(query){
-        return getDb().collection('items').find(query).toArray();
+    static getItemsByQuery(query,limit,page){
+        return getDb().collection('items').find(query).limit(limit).skip((page-1)*limit).toArray();
     }
 
     static updateById(id,values,userId){
