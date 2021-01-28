@@ -3,7 +3,7 @@
 
 <body>
     <%- include('../includes/navigation.ejs') %>  
-<div class="container">
+<div class="manage-foods container">
     <% if(errors) { %>
         <div class="alert alert-warning alert-dismissible fade show my-4" role="alert">
             <strong><%= errors %></strong>
@@ -24,7 +24,7 @@
     </div>
     <hr width="100px"> 
     
-    <% if(items){ %>
+    <% if(items.length > 0){ %>
         <div class="row">
             <% items.forEach(item=>{ %>
                 <div class="card col-md-4 food-card" style="width: 18rem;">
@@ -34,22 +34,23 @@
                       <p class="card-text"><%= item.food_description %></p>
                       <span class="text-muted"><%= item.food_category %></span>
                       <div class="price"><span class="text-muted">Price:</span> <strong><%= item.food_price %>&#8377;</strong></div>
-                      <input type="hidden" name="id" value="<%= item._id %>"/>
+                      <!-- <input type="hidden" name="id" value="<%= item._id %>"/> -->
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
                       <div class="lastBlock">
-                        <a href="#" class="btn btn-primary btn-cart" onclick="openEditModel()">Edit</a>
-                        <a href="#" class="btn btn-danger btn-cart" onclick="deleteItem(this)">Delete</a>
+                        <a href="" class="btn btn-primary btn-cart" onclick="openEditModel()">Edit</a>
+                        <a href="" class="btn btn-danger btn-cart" onclick="deleteItem(this,'<%= item._id %>')">Delete</a>
                       </div>
                     </div>
                   </div>
             <% }); %>
         </div>
+        <%- include('../includes/pagination.ejs',{currentPage:currentPage,totalItems:totalItems,hasPrevPage:hasPrevPage,hasNextPage:hasNextPage,nextPage:nextPage,prevPage:prevPage,lastPage:lastPage}) %>
     <% }else{ %>
-            <h3>No foods available. Please add one</h3>
+            <h5 class="no-item-text">No foods available. Add one</h3>
     <% } %>  
     
 
-    <%- include('../includes/pagination.ejs',{currentPage:currentPage,totalItems:totalItems,hasPrevPage:hasPrevPage,hasNextPage:hasNextPage,nextPage:nextPage,prevPage:prevPage,lastPage:lastPage}) %>
+  
 
 </div>
 

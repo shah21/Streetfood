@@ -2,7 +2,7 @@ const Food = require('../models/food');
 const {validationResult} = require('express-validator');
 const { fileRemover } = require('../utils/file');
 const ObjectId = require('mongodb').ObjectID;
-const ITEM_PER_PAGE = 1;
+const ITEM_PER_PAGE = 2;
 
 exports.getManageFoods = (req,res,next)=>{
     const messages = req.flash('error');
@@ -55,13 +55,14 @@ exports.postAddItem = (req,res,next) =>{
     const food_name = req.body.food_name;
     const food_description = req.body.food_description;
     const food_category = req.body.food_category;
-    const food_price = req.body.food_price;
+    const food_price = +req.body.food_price;
+    const page = req.query.page || 1;
     const hotel_id = req.user._id;
     const food_image = req.file;
     const errors = validationResult(req).array();
 
     const query = {hotel_id:new ObjectId(hotel_id)};
-    Food.getItemsByQuery(query).then(items=>{
+    Food.getItemsByQuery(query,ITEM_PER_PAGE,page).then(items=>{
         if(!food_image){
             return res.status(422).render('hotel/manage_foods',{
                 pageTitle: "Manage Foods",
@@ -101,7 +102,7 @@ exports.postAddItem = (req,res,next) =>{
             });
         }
     
-        const newFood = new Food(food_name,food_description,food_category,food_price,imgUrl,hotel_id,Date.now());
+        const newFood = new Food(food_name,food_description,food_category,parseFloat(food_price),imgUrl,hotel_id,Date.now());
         newFood.save().then((result) => {
             console.log("Item added.");
             req.flash('success',' New food added');
@@ -154,7 +155,7 @@ exports.postEditItem = (req,res,next) =>{
                 food_name:food_name,
                 food_description:food_description,
                 food_category:food_category,
-                food_price:food_price,
+                food_price:parseFloat(food_price),
             };
     
             if(food_image){

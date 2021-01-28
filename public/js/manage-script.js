@@ -19,8 +19,8 @@ const openEditModel = ()=>{
 }; 
 
 
-const deleteItem = (btn)=>{
-    const itemId = document.querySelector('[name=id]').value;
+const deleteItem = (btn,id)=>{
+    const itemId = id;
     const csrf = document.querySelector('[name=_csrf]').value;
     const currentElement = btn.closest('.food-card');
     

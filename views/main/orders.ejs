@@ -1,0 +1,58 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <section class="cart container">
+        <h2 class="cart-text">My Orders</h2>
+        <hr class="hr" width="80px">
+    
+        <% if(orders.length > 0){ %>
+            <% orders.forEach(order=>{ %>
+                <ul class="list-group">
+                    <li class="list-group-item active">ORDER # <%= order._id %></li>
+                    <li class="list-group-item">
+                        <div class="body">
+                            <div class="line1">
+                                <div class="order-time">
+                                    <span class="text-muted order-time-label">ORDER PLACED</span>
+                                    <br>
+                                    <span class="order-time-text">
+                                        <%= new Date(order.ordered_time).getDate() %> 
+                                        <%= months[new Date(order.ordered_time).getMonth()] %>
+                                        <%= new Date(order.ordered_time).getFullYear() %>
+                                    </span>
+                                </div>
+                                
+                                <div class="order-price">
+                                    <span class="text-muted order-price-label">TOTAL</span><br>
+                                    <span class="order-price-text">
+                                        &#8377;<%= order.total %> 
+                                    </span>
+                                </div>
+
+                                <div class="order-details">
+                                    <span class="text-muted order-details-label"><a href="/orders/<%= order._id %>">ORDER DETAILS</a></span><br>
+                                    <span class="order-details-text">
+                                        <a href="/orders/invoice/<%= order._id %>">Download invoice</a>
+                                    </span>
+                                </div>
+                               
+                            </div>
+                            
+                        </div>
+                    </li>
+                  </ul>
+            <% }); %>
+        <% }else{ %>
+            <div class="no-items">
+                <h5 class="no-item-text">Your have no orders available.</h5>
+                <a href="/">continue shopping</a>
+            </div>
+           
+        <% } %>    
+    
+    </section>   
+
+
+    <%- include('../includes/end.ejs') %>

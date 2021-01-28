@@ -7,9 +7,11 @@
     <hr class="hr" width="80px">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title"><span class="text-muted">Subtotal</span> :  <span id="totalPrice"><%= cart.total %></span>&#8377;</h5> 
+            <h5 class="card-title"><span class="text-muted">Subtotal</span> :  <span id="totalPrice">&#8377;<%= cart.total %></span></h5> 
             <!-- <span class="noOfItems">(2 Items)</span> -->
-            <a href="#" class="btn btn-success">Pay & Order</a>
+            <% if(cart.total > 0){ %>
+            <a href="/checkout" class="btn btn-success">Pay & Order</a>
+            <% } %>
         </div>
     </div>
     <% if(cart.items.length > 0){ %>
@@ -20,7 +22,7 @@
                   <div class="card-text">
                     <h5><%= item.food.food_name %></h5>
                     <span class="text-muted">Quantity: <%= item.quantity %> </span><br>
-                    <span>Price: <%= item.food.food_price %>&#8377;</span>
+                    <span>Price: &#8377;<%= item.food.food_price %></span>
                   </div>
                   <div class="right-side">
                     <!-- <input type="hidden" name="id" value="<%= item.foodId %>"/> -->

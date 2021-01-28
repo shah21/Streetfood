@@ -1,0 +1,53 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <section class="cart container">
+        <h2 class="cart-text">Checkout</h2>
+        <hr class="hr" width="80px">
+
+        <div class="content">
+            <% items.forEach(item=>{ %>
+                <div class="card cart-item">
+                    <div class="card-body">
+                        <img class="cart-item-image" src="<%= item.food.food_image %>" alt="">
+                        <div class="card-text">
+                            <h5>
+                                <%= item.food.food_name %>
+                            </h5>
+                            <span class="text-muted">Quantity: <%= item.quantity %> </span><br>
+                            <span>Price: <%= item.food.food_price %>&#8377;</span>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+
+            <div class="card card-total">
+                <div class="body">
+                    <h5 class="text-price">Total :<span> <%= totalSum %>&#8377;</span></h5>
+                    <button id="checkout-button" class="btn btn-primary btn-checkout">Pay Now</button>
+                </div>
+            </div>
+
+        </div>
+        
+       
+        
+            
+           
+            
+    </section>
+
+
+
+<%- include('../includes/end.ejs') %>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe("pk_test_51IAYLwKM4w4fU0skvNa9dfHiQE04LUJKd7K1ClPD8FNPuspjNxzPsoyhwuSK2G5Rm7FJJGSqfT28MUjbvGT7SZ9200qazo4h26");
+    var checkoutButton = document.getElementById("checkout-button");
+    checkoutButton.addEventListener("click", ()=> {
+        stripe.redirectToCheckout({ sessionId: '<%= sessionId %>' });
+    });
+</script>
