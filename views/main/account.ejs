@@ -1,0 +1,20 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <section class="account container">
+        <h2 class="account-text">My Account</h2>
+        <hr class="hr" width="80px">
+
+        <ul class="list-group">
+            <li class="list-group-item"><span class="text-muted">Email</span> <h5><%= user.email %></h5></li>
+            <% if(user.hotel_name.length > 0){ %>
+                <li class="list-group-item"><span class="text-muted">Hotel Name</span> <h5><%= user.hotel_name %></h5></li>
+            <% } %>    
+            <li class="list-group-item"><a href="/forgot-password">Change password</a></li>
+          </ul>
+    </section>
+
+
+<%- include('../includes/end.ejs') %>

@@ -168,8 +168,16 @@ exports.getOrders = (req,res,next)=>{
             months:months,
           });
     });
+}
 
-    
+exports.getAccount = (req,res,next)=>{
+    User.findById(req.user._id).then(user=>{
+        res.render("main/account", {
+            pageTitle: "Account",
+            path: "/account",
+            user:user,
+          });
+    })
 }
 
 exports.postAddtoCart = (req,res,next)=>{

@@ -4,7 +4,7 @@
     <div class="brand-title"><a href="/"></a><strong>Streetfood.com</strong></a></div>
     <a href="#" class="toggle-button">
         <span class="bar"></span>
-        <span class="bar"></span>
+        <span class="bar"></span>   
         <span class="bar"></span>
     </a>
     <div class="navbar-links">
@@ -14,17 +14,32 @@
                 <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Find food</a></li>
                 <li><a href="/#categories" class="<%= path === '/categories' ? 'active' : '' %>">Categories</a></li>
                 <li><a href="/#hotels" class="<%= path === '/hotels' ? 'active' : '' %>">Hotels</a></li>
-                <li><a href="/orders" class="<%= path === '/orders' ? 'active' : '' %>">Orders</a></li>
-                <li><a href="/cart" class="<%= path === '/cart' ? 'active' : '' %>">Cart</a></li>
-
-                <% if(userType === 'hotel'){ %>
-                    <li><a href="/manage-foods" class="<%= path === '/manage-foods' ? 'active' : '' %>">Manage Foods</a></li>    
-                <% } %>
-
                 <form id="navForm" action="/logout" method="POST">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
-                    <li><a href="#" onclick="document.getElementById('navForm').submit();">Logout</a></li>
-                </form>    
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            <i class="bi bi-person-square mx-2"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item <%= path === '/account' ? 'active' : '' %>" href="/account">My Account</a></li>
+                            <li><a href="/orders" class="dropdown-item <%= path === '/orders' ? 'active' : '' %>">Orders</a>
+                            </li>
+                            <% if(userType==='hotel' ){ %>
+                                <li><a href="/manage-foods" class="dropdown-item <%= path === '/manage-foods' ? 'active' : '' %>">Manage Foods</a></li>
+                            <% } %>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                        
+                            <li><a class="dropdown-item" href="#" onclick="document.getElementById('navForm').submit();">Logout</a></li>
+                        </ul>
+                    </li>
+                </form>
+
+                <li><a href="/cart" class="<%= path === '/cart' ? 'active' : '' %>">
+                    <i class="bi bi-bag-dash mx-2"></i>
+                </a></li>
+                  
             <% }else{ %>
             <li><a href="/login" class="<%= path === '/login' ? 'active' : '' %>">Login</a></li>
             <li><a href="/signup" class="<%= path === '/signup' ? 'active' : '' %>">Signup</a></li>

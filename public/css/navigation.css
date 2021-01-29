@@ -19,6 +19,11 @@
     display: flex;
 }
 
+.navbar-links ul ul{
+    display: none;
+}
+
+
 .navbar-links li{
     list-style: none;
 }   
@@ -29,6 +34,12 @@
     padding: 1rem;
     display: block;
 }   
+
+
+
+ul.dropdown-menu li a.dropdown-item{
+    color: black;
+}
 
 .logout-btn{
     color: white;
@@ -45,6 +56,7 @@
 .navbar-links li:hover, .active{
     background-color: #555;
 }
+
 
 .toggle-button{
     position: absolute;

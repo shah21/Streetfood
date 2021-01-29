@@ -135,3 +135,8 @@ div.manage-foods .no-item-text {
 .line1 span{
     font-size: .8rem;
 }
+
+/* account */
+section.account .account-text{
+    margin-top: 100px;
+}
