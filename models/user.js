@@ -9,6 +9,7 @@ class User {
         this.hotel_name = hotel_name;
         this.created = created;
         this.cart = cart;
+        this.address = address;
     }
 
     save(){

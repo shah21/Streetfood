@@ -7,6 +7,7 @@ const ObjectId = require('mongodb').ObjectID;
 const pdfDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
+const { validationResult } = require('express-validator') 
 //constants
 const ITEM_PER_PAGE = 2;
 
@@ -177,8 +178,95 @@ exports.getAccount = (req,res,next)=>{
             path: "/account",
             user:user,
           });
-    })
+    }).catch(err=>{
+        throw new Error(err);
+    });
 }
+
+exports.getDeliveryAddress = (req,res,next)=>{
+    User.findById(req.user._id).then(user=>{
+        res.render("main/delivery_address", {
+            pageTitle: "Delivery Address",
+            path: "/delivery-address",
+            user:user,
+          });
+    }).catch(err=>{
+        throw new Error(err);
+    });
+}
+
+exports.getAddDeliveryAddress = (req,res,next)=>{
+    const messages = req.flash('error');
+    const errors = validationResult(req).array();
+
+
+
+    res.render("main/add_delivery_address", {
+        pageTitle: "Add Address",
+        path: "/add-address",
+        error:errors.length > 0 ? errors[0].msg : null,
+        validationErrors:errors,
+        oldData:{}
+      });
+}
+
+exports.postAddDeliveryAddress = (req,res,next)=>{
+    const name = req.body.name;
+    const phone = req.body.phone;
+    const pincode = req.body.pincode;
+    const address_line1 = req.body.address_line1;
+    const address_line2 = req.body.address_line2;
+    const landmark = req.body.landmark;
+    const city = req.body.city;
+    const state = req.body.state;
+    const messages = req.flash('error');
+    const errors = validationResult(req).array();
+
+    if(errors.length > 0){
+
+        
+
+        return res.render("main/add_delivery_address", {
+            pageTitle: "Add Address",
+            path: "/add-address",
+            errors:errors.length > 0 ? errors[0].msg : null,
+            validationErrors:errors,
+            oldData:{
+                name:name,
+                phone:phone,
+                pincode:pincode,
+                address_line1:address_line1,
+                address_line2:address_line2,
+                landmark:landmark,
+                city:city,
+                state:state,
+            }
+          });
+    }
+
+    const address = {
+        name:name,
+        phone:phone,
+        pincode:pincode,
+        address_line1:address_line1,
+        address_line2:address_line2,
+        landmark:landmark,
+        city:city,
+        state:state,
+    };
+
+    const values = {address:[address]};
+
+    User.updateById(req.user._id,values).then(result=>{
+        req.flash('success','added new delivery address');
+        res.redirect('/account');
+    }).catch(err=>{
+        throw new Error(err);
+    })
+    
+}
+
+
 
 exports.postAddtoCart = (req,res,next)=>{
     const itemId = new ObjectId(req.body.itemId);

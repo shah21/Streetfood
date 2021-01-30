@@ -47,7 +47,7 @@ section.verify-section button {
     align-content: center;    
 }
 
-
+section.delivery h2,
 section.cart h2.cart-text {
     margin-top:100px;
 }
@@ -139,4 +139,14 @@ div.manage-foods .no-item-text {
 /* account */
 section.account .account-text{
     margin-top: 100px;
+}
+
+/* address */
+section.add-address .address-form {
+    width: 500px;
+    margin: 100px auto;
+}
+
+section.add-address .address-form label,button{
+    margin-top: 20px;
 }
