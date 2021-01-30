@@ -141,12 +141,24 @@ section.account .account-text{
     margin-top: 100px;
 }
 
+section.account span.address-text {
+    font-size: .8rem;
+}
+
+
+
 /* address */
 section.add-address .address-form {
     width: 500px;
     margin: 100px auto;
 }
 
-section.add-address .address-form label,button{
+section.delivery .address-card {
+    width: 400px;
+    padding: 10px;
+}
+
+section.delivery .address-card button {
     margin-top: 20px;
 }
+

@@ -1,53 +1,67 @@
 <%- include('../includes/head.ejs') %>
 </head>
 <body>
+    <link href="/css/form-style.css" rel="stylesheet"/>
     <%- include('../includes/navigation.ejs') %>
 
     <section class="add-address container">
 
-        
+      
 
         <form class="address-form" action="/add-delivery-address" method="POST">
+
+            <% if(errors) { %>
+                <div class="alert alert-warning alert-dismissible fade show my-4" role="alert">
+                    <strong><%= errors %></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+            <% } %>
 
             <h2 >Add Address</h2>
             <hr width="80px">
 
+            <span class="mandatory-text">(<span class="mandatory">*</span>) Mandatory Fields</span>
+
             <div class="form-group">
-              <label for="exampleInputEmail1">Full Name</label>
-              <input type="text" name="name" class="form-control" id="InputName" placeholder="Enter Name" value="<%= oldData.name %>">
+              <label for="exampleInputEmail1">Full Name <span class="mandatory">*</span> </label>
+              <input type="text" name="name" class="form-control <%= validationErrors.find(e=> e.param === 'name') ? 'invalid' : '' %>" id="InputName" placeholder="Enter Name" value="<%= oldData.name %>">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Mobile Number</label>
-                <input type="number" name="phone" class="form-control" id="InputNumber" placeholder="10 digit phone number" value="<%= oldData.phone %>">
+                <label for="exampleInputEmail1">Mobile Number <span class="mandatory">*</span> </label>
+                <input type="number" name="phone" class="form-control <%= validationErrors.find(e=> e.param === 'phone') ? 'invalid' : '' %>" id="InputNumber" placeholder="10 digit phone number" value="<%= oldData.phone %>">
               </div>
               <div class="form-group">
-                <label for="exampleInputEmail1">PIN code</label>
-                <input type="number" name="pincode" class="form-control" id="InputPin" placeholder="6 digit phone no" value="<%= oldData.pincode %>">
+                <label for="exampleInputEmail1">PIN code <span class="mandatory">*</span> </label>
+                <input type="number" name="pincode" class="form-control <%= validationErrors.find(e=> e.param === 'pincode') ? 'invalid' : '' %>"  id="InputPin" placeholder="6 digit phone no" value="<%= oldData.pincode %>">
               </div>
               
               <div class="form-group">
-                <label for="exampleInputEmail1">Flat, House no., Building, Company, Apartment</label>
-                <input type="text" name="address_line1" class="form-control" id="InputPin" value="<%= oldData.address_line1 %>">
+                <label for="exampleInputEmail1">Flat, House no., Building, Company, Apartment <span class="mandatory">*</span> </label>
+                <input type="text" name="address_line1" class="form-control <%= validationErrors.find(e=> e.param === 'address_line1') ? 'invalid' : '' %>" id="InputPin" value="<%= oldData.address_line1 %>">
               </div>
               
               <div class="form-group">
                 <label for="exampleInputEmail1">Area, Colony, Street, Sector, Village</label>
-                <input type="text"  name="address_line2" class="form-control" id="InputPin" value="<%= oldData.address_line2 %>">
+                <input type="text"  name="address_line2" class="form-control <%= validationErrors.find(e=> e.param === 'address_line2') ? 'invalid' : '' %>" id="InputPin" value="<%= oldData.address_line2 %>">
               </div>
               
               <div class="form-group">
                 <label for="exampleInputEmail1">Landmark</label>
-                <input type="text" name="landmark" class="form-control" id="InputPin" placeholder="Near govt school" value="<%= oldData.landmark %>">
+                <input type="text" name="landmark" class="form-control <%= validationErrors.find(e=> e.param === 'landmark') ? 'invalid' : '' %>" id="InputPin" placeholder="Near govt school" value="<%= oldData.landmark %>">
               </div>
 
               <div class="form-group">
-                <label for="exampleInputEmail1">Town City</label>
-                <input type="text" name="city" class="form-control" id="InputPin" value="<%= oldData.city %>">
+                <label for="exampleInputEmail1">Town City <span class="mandatory">*</span> </label>
+                <input type="text" name="city" class="form-control <%= validationErrors.find(e=> e.param === 'city') ? 'invalid' : '' %>" id="InputPin" value="<%= oldData.city %>">
               </div>
 
               <div class="form-group">
-                <label for="exampleInputEmail1">State</label>
-                <input type="text" name="state" class="form-control" id="InputPin" value="<%= oldData.state %>">
+                <label for="exampleInputEmail1">State <span class="mandatory">*</span> </label>
+                <input type="text" name="state" class="form-control <%= validationErrors.find(e=> e.param === 'state') ? 'invalid' : '' %>" id="InputPin" value="<%= oldData.state %>">
+              </div>
+
+              <div class="form-group">
+                <input type="checkbox" name="default_address"  class="default-radio"> Use as my default address 
               </div>
               
               <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>

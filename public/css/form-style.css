@@ -40,3 +40,19 @@ form.signup .invalid {
 #nameField {
     display: none;
 }
+
+section.add-address .address-form label,button,.default-radio{
+    margin-top: 20px;
+}
+
+.invalid {
+    border-color: red;
+}
+
+.mandatory-text {
+    font-size: .8rem;
+}
+
+.mandatory{
+    color: red;
+}

@@ -204,7 +204,7 @@ exports.getAddDeliveryAddress = (req,res,next)=>{
     res.render("main/add_delivery_address", {
         pageTitle: "Add Address",
         path: "/add-address",
-        error:errors.length > 0 ? errors[0].msg : null,
+        errors:errors.length > 0 ? errors[0].msg : null,
         validationErrors:errors,
         oldData:{}
       });
@@ -219,8 +219,11 @@ exports.postAddDeliveryAddress = (req,res,next)=>{
     const landmark = req.body.landmark;
     const city = req.body.city;
     const state = req.body.state;
+    const isDefault = req.body.default_address;
     const messages = req.flash('error');
     const errors = validationResult(req).array();
+
+    console.log(isDefault);
 
     if(errors.length > 0){
 
@@ -253,6 +256,7 @@ exports.postAddDeliveryAddress = (req,res,next)=>{
         landmark:landmark,
         city:city,
         state:state,
+        isDefault:isDefault === 'on' ? true:false,
     };
 
     const values = {address:[address]};
