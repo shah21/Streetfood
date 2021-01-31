@@ -136,6 +136,10 @@ div.manage-foods .no-item-text {
     font-size: .8rem;
 }
 
+.list-group {
+    margin-bottom: 30px;
+}
+
 /* account */
 section.account .account-text{
     margin-top: 100px;
@@ -156,9 +160,15 @@ section.add-address .address-form {
 section.delivery .address-card {
     width: 400px;
     padding: 10px;
+    margin: 10px;
 }
 
 section.delivery .address-card button {
     margin-top: 20px;
+}
+
+
+.text-addNew {
+    margin-top: 30px;   
 }
 

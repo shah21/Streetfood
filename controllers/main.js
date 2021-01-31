@@ -51,7 +51,14 @@ exports.getCart = (req,res,next)=>{
     });
 }
 
+exports.postSelectedAddress = (req,res,next)=>{
+    const addressId = req.body.address_id;
+    req.session.addressId = addressId;
+    res.redirect('/checkout');
+}
+
 exports.getCheckout = (req,res,next)=>{
+    
     User.getCartItems(req.user._id).then((data) => {
         const cart = data[0];
         const items = cart.items;
@@ -138,9 +145,17 @@ exports.getCheckoutSuccess = (req,res,next)=>{
                 food:item.food
             }
         });
-        const order = new Order(req.user._id,req.user.email,items,cart.total,Date.now());
+
+        const address = req.user.address.find(x=>{
+            return x._id.toString() === req.session.addressId.toString();
+        });
+
+        console.log(req.session.addressId);
+
+        const order = new Order(req.user._id,req.user.email,items,cart.total,Date.now(),address);
         return order.save();
-    }).then(result=>{
+    })
+    .then(result=>{
         const values = {cart:{items:[]}};
         return User.updateById(req.user._id,values);
     }).then(result=>{
@@ -198,12 +213,13 @@ exports.getDeliveryAddress = (req,res,next)=>{
 exports.getAddDeliveryAddress = (req,res,next)=>{
     const messages = req.flash('error');
     const errors = validationResult(req).array();
-
+    const fromPage = req.params.fromPage;
 
 
     res.render("main/add_delivery_address", {
         pageTitle: "Add Address",
         path: "/add-address",
+        fromPage:fromPage,
         errors:errors.length > 0 ? errors[0].msg : null,
         validationErrors:errors,
         oldData:{}
@@ -220,6 +236,7 @@ exports.postAddDeliveryAddress = (req,res,next)=>{
     const city = req.body.city;
     const state = req.body.state;
     const isDefault = req.body.default_address;
+    const fromPage = req.body.fromPage;
     const messages = req.flash('error');
     const errors = validationResult(req).array();
 
@@ -234,6 +251,7 @@ exports.postAddDeliveryAddress = (req,res,next)=>{
             path: "/add-address",
             errors:errors.length > 0 ? errors[0].msg : null,
             validationErrors:errors,
+            fromPage:fromPage,
             oldData:{
                 name:name,
                 phone:phone,
@@ -248,6 +266,7 @@ exports.postAddDeliveryAddress = (req,res,next)=>{
     }
 
     const address = {
+        _id:new ObjectId(Date.now()),
         name:name,
         phone:phone,
         pincode:pincode,
@@ -259,11 +278,23 @@ exports.postAddDeliveryAddress = (req,res,next)=>{
         isDefault:isDefault === 'on' ? true:false,
     };
 
-    const values = {address:[address]};
+    
+    let values;
+    if(req.user.address && req.user.address.length > 0){
+        const addressArray = req.user.address;
+        values = {address:[...addressArray,address]};
+    }else{
+        values = {address:[address]};
+    }
 
     User.updateById(req.user._id,values).then(result=>{
         req.flash('success','added new delivery address');
-        res.redirect('/account');
+        if(fromPage === 'account'){
+            res.redirect('/account');
+        }else{
+            res.redirect('/delivery-address')
+        }
+        
     }).catch(err=>{
         throw new Error(err);
     })

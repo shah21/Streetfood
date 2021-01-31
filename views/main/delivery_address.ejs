@@ -7,34 +7,41 @@
     <h2>Select delivery address</h1>
     <hr class="hr" width="120px">
 
-    <% if(user.address.length > 0){ %>
+    <% if(user.address  &&user.address.length > 0){ %>
+
+        <div class="row">
 
         <% user.address.forEach(address=>{ %>
-            <div class="address-card card">
+            <div class="address-card card col-md-8">
 
                 <span class="address-text"> <span class="text-muted label-address">Full name:</span> <%= address.name %> </span>
                 <span class="address-text"> <span class="text-muted label-address">Phone:</span>  <%= address.phone %> </span>
                 <span class="address-text"> <span class="text-muted label-address">Pincode:</span> <%= address.pincode %> </span>
                 <span class="address-text"> <span class="text-muted label-address">Address Line 1:</span> <%= address.address_line1 %> </span>
-                <% if(user.address[0].address_line2 > 0) { %>
+                <% if(user.address.address_line2 > 0) { %>
                     <span class="address-text"> <span class="text-muted label-address">Address Line 2:</span> <%= address.address_line2 %> </span>
                 <% } %>   
-                <% if(user.address[0].landmark > 0) { %>
+                <% if(user.address.landmark > 0) { %>
                 <span class="address-text"> <span class="text-muted label-address">Landmark:</span>  <%= address.landmark %> </span>
                 <% } %>   
                 <span class="address-text"> <span class="text-muted label-address">City:</span>  <%= address.city %> </span>
                 <span class="address-text"> <span class="text-muted label-address">State:</span> <%= address.state %> </span>
 
-
-                <button class="btn btn-success">Deliver to this address</button>
-                
+                <form action="/selected-address" method="POST">   
+                    <input type="hidden" name="address_id" value="<%= address._id %>">   
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">   
+                    <button type="submit" class="btn btn-success">Deliver to this address</button>
+                </form> 
             </div>
         <% }) %>
+    </div>
   
     <% }else{ %>
-        <h1>No address add one</h1>
-
+       
     <% } %>
+
+    <a class="text-addNew" href="/add-delivery-address/?fromPage=delivery-address">Add new delivery address</a>
+  
 </section>
 
 

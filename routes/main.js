@@ -21,6 +21,7 @@ router.get('/account',isAuth,mainController.getAccount);
 router.get('/add-delivery-address',isAuth,mainController.getAddDeliveryAddress);
 
 
+router.post('/selected-address',isAuth,mainController.postSelectedAddress);
 router.post('/add-to-cart/',isAuth,mainController.postAddtoCart);
 router.delete('/delete-cart-item/:id',isAuth,mainController.deleteCartItem);
 router.post('/add-delivery-address',[
