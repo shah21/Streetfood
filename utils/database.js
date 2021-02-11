@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 const mongodb = require('mongodb');
 
 const mongoClient = mongodb.MongoClient;
-const DB_URL = "mongodb+srv://shah:24rnVNb9dX9KxMZ@cluster0.49ooy.mongodb.net/streetfood?retryWrites=true&w=majority";
+const DB_URL = "<MongodbUrl>";
 let _db;
 
 const mongoConnect = (callback) =>{
