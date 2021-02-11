@@ -1,2 +1,2 @@
 # streetfood
-Zomato for kerala tattuakadas
+It is an online food delivery application for kerala thattukadas 
