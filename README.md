@@ -31,7 +31,8 @@ _For more examples and usage, please refer to the [Wiki][wiki]._
 
 ![HTML][html]
 ![CSS][css]
-![node][node-js]
+![js][js]
+![node][npm-image]
 ![ejs][ejs-ver]
 ![mongodb][mongo-url]
 
@@ -74,3 +75,4 @@ Open sourced under the XYZ license. See ``LICENSE`` for more information.
 [ejs-ver]: https://img.shields.io/badge/ejs-v3.1.6-lightgrey
 [mongo-url]: https://img.shields.io/badge/mongodb-v4.4-brightgreen
 [banner]: screenshots/streetfood_banner.png
+[js]: https://img.shields.io/badge/javascript-es6-blue
