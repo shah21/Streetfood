@@ -12,7 +12,7 @@ This project built when my early stage of node js learning. if you have suggesti
 
 ## Installation
 
-OS X & Linux:
+OS X & Linux & Windows:
 
 ```sh
 npm install 
