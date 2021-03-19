@@ -5,7 +5,8 @@
 ![Build Status][status-icon]
 
 
-Streetfood is a food deliver.
+Streetfood is a food delivery application with basic features of a e-commerce site. It has features like authentication,food lists, cart, orders, payment and checkout etc. 
+This project built when my early stage of node js learning. if you have suggestions then you can make changes through pull requests.
 
 ![](header.png)
 
@@ -14,52 +15,37 @@ Streetfood is a food deliver.
 OS X & Linux:
 
 ```sh
-npm install my-crazy-module --save
-```
-
-Windows:
-
-```sh
-edit autoexec.bat
+npm install 
 ```
 
 ## Usage example
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
+There are no procedure for running this application , do as say above in installation section and create your account explore project. thats it.
 
 _For more examples and usage, please refer to the [Wiki][wiki]._
 
-## Development setup
+## Technology used
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
-
-```sh
-make install
-npm test
-```
+![HTML][html]
+![CSS][css]
+![node][node-js]
+![ejs][ejs-ver]
+![mongodb][mongo-url]
 
 ## Release History
 
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
 * 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
-* 0.0.1
+    * Initilal Release
+* 0.2.0
     * Work in progress
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+Muhsin Shah – [@shah21](https://twitter.com/MuhsinS07857838?s=09) – muhsinshah21@gmail.com
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+Open sourced under the XYZ license. See ``LICENSE`` for more information.
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+[https://github.com/shah21](https://github.com/shah21/)
 
 ## Contributing
 
@@ -69,10 +55,18 @@ Distributed under the XYZ license. See ``LICENSE`` for more information.
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
 
+ 
+
+
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/badge/node-v12.18.3-green
 [npm-url]: https://npmjs.org/package/datadog-metrics
 [travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki
+[wiki]: https://en.wikipedia.org/wiki/Npm_(software)
 [status-icon]: https://img.shields.io/badge/status-incomplete-yellow
+[html]: https://img.shields.io/badge/HTML-5-orange
+[css]: https://img.shields.io/badge/CSS-3-red
+[node-js]: https://img.shields.io/badge/node-javascript-green
+[ejs-ver]: https://img.shields.io/badge/ejs-v3.1.6-lightgrey
+[mongo-url]: https://img.shields.io/badge/mongodb-v4.4-brightgreen
