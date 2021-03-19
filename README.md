@@ -1,11 +1,11 @@
-# Product Name
-> Short blurb about what your product does.
+# Streetfood.com
+> Food delivery application for local hotels in kerala.
 
 [![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
+![Build Status][status-icon]
 
-One to two paragraph statement about your product and what it does.
+
+Streetfood is a food deliver.
 
 ![](header.png)
 
@@ -70,9 +70,9 @@ Distributed under the XYZ license. See ``LICENSE`` for more information.
 5. Create a new Pull Request
 
 <!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
+[npm-image]: https://img.shields.io/badge/node-v12.18.3-green
 [npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
 [travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
 [wiki]: https://github.com/yourname/yourproject/wiki
+[status-icon]: https://img.shields.io/badge/status-incomplete-yellow
