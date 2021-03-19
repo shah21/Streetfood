@@ -27,7 +27,7 @@ _For more examples and usage, please refer to the [Wiki][wiki]._
 ![banner][banner]
 
 
-## Technology used
+## Technologies used
 
 ![HTML][html]
 ![CSS][css]
