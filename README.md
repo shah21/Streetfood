@@ -47,7 +47,7 @@ _For more examples and usage, please refer to the [Wiki][wiki]._
 
 Muhsin Shah – [@shah21](https://twitter.com/MuhsinS07857838?s=09) – muhsinshah21@gmail.com
 
-Open sourced under the XYZ license. See ``LICENSE`` for more information.
+Open sourced under the Apache License 2.0. See ``LICENSE`` for more information.
 
 [https://github.com/shah21](https://github.com/shah21/)
 
