@@ -6,9 +6,8 @@
 
 
 Streetfood is a food delivery application with basic features of a e-commerce site. It has features like authentication,food lists, cart, orders, payment and checkout etc. 
-This project built when my early stage of node js learning. if you have suggestions then you can make changes through pull requests.
+This project built when my early stage of node js learning. if you have any suggestions then you can submit through pull requests.
 
-![](header.png)
 
 ## Installation
 
@@ -23,6 +22,10 @@ npm install
 There are no procedure for running this application , do as say above in installation section and create your account explore project. thats it.
 
 _For more examples and usage, please refer to the [Wiki][wiki]._
+
+## Screenshots
+![banner][banner]
+
 
 ## Technology used
 
@@ -70,3 +73,4 @@ Open sourced under the XYZ license. See ``LICENSE`` for more information.
 [node-js]: https://img.shields.io/badge/node-javascript-green
 [ejs-ver]: https://img.shields.io/badge/ejs-v3.1.6-lightgrey
 [mongo-url]: https://img.shields.io/badge/mongodb-v4.4-brightgreen
+[banner]: screenshots/streetfood_banner.png
